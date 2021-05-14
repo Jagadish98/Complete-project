@@ -10,8 +10,9 @@ import './Header.scss';
 function Header(){
     console.log(window.innerWidth);
     const [show, setShow] = useState(true);
-
+    
     const toggleMenu = () => {
+        console.log(show);
         setShow(!show);
     }
 
@@ -19,9 +20,9 @@ return(
       <div className="header">
             
             <div className='header__searchBar' >
-            <span className='menu__icon'>    
-            <RiMenu2Fill className="menu__icon" onClick={toggleMenu} />
-            </span>
+            <button type="button" onClick={toggleMenu}>   
+               <RiMenu2Fill className="menu__icon"  />
+            </button>
               <Link to='/' >     
                  <img src={logo} alt="ArtisHeart" width='140px' height='38px'/>
               </Link>
@@ -43,9 +44,9 @@ return(
              </div>
             </div>
           
-        <div className='header__container'>
-         <ul className='header__menu'>
-          <li className="menu__user">
+        <div className={show ? 'header__container': 'hidden'}>
+         <ul>
+          <li>
               <div className="menu__guest">
                  <FaUser className='cart__icon' />
               </div>
@@ -81,8 +82,11 @@ return(
           </li>
           </ul>
        </div>
-
-     
+       <div>
+            <button type="button" onClick={toggleMenu} className='menu__icon'>
+                <RiMenu2Fill className="menu__icon"  />
+            </button>
+       </div>
       </div>
 )
 }

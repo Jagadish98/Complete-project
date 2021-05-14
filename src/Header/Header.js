@@ -8,7 +8,6 @@ import logo from '../asset/logo.png';
 import './Header.scss';
 
 function Header(){
-    console.log(window.innerWidth);
     const [show, setShow] = useState(true);
     
     const toggleMenu = () => {
@@ -20,9 +19,10 @@ return(
       <div className="header">
             
             <div className='header__searchBar' >
-            <button type="button" onClick={toggleMenu}>   
-               <RiMenu2Fill className="menu__icon"  />
-            </button>
+
+              <button type="button" onClick={toggleMenu}>   
+                 <RiMenu2Fill className="menu__icon"  />
+              </button> 
               <Link to='/' >     
                  <img src={logo} alt="ArtisHeart" width='140px' height='38px'/>
               </Link>
@@ -30,8 +30,8 @@ return(
              <div className='search__container'>
               <input type="search" className='searchbar'placeholder='Search for products...'/>
               <button type='search' className='btn__search'>Search</button>
-           
              </div>
+
              <div className='container'>
              <div className='cartIcon__container'>
               <AiOutlineShoppingCart className='cart__icon cart__additional'/>
@@ -42,6 +42,7 @@ return(
               <span>SignIn</span>
              </div>
              </div>
+
             </div>
           
         <div className={show ? 'header__container': 'hidden'}>
@@ -81,11 +82,6 @@ return(
               </Link>
           </li>
           </ul>
-       </div>
-       <div>
-            <button type="button" onClick={toggleMenu} className='menu__icon'>
-                <RiMenu2Fill className="menu__icon"  />
-            </button>
        </div>
       </div>
 )

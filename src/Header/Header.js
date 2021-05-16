@@ -9,7 +9,7 @@ import './Header.scss';
 
 function Header(){
     const [show, setShow] = useState(true);
-    
+    console.log(window.innerWidth);
     const toggleMenu = () => {
         console.log(show);
         setShow(!show);
@@ -20,7 +20,7 @@ return(
             
             <div className='header__searchBar' >
 
-              <button type="button" onClick={toggleMenu}>   
+              <button type="button" className='menu__button' onClick={toggleMenu}>   
                  <RiMenu2Fill className="menu__icon"  />
               </button> 
               <Link to='/' >     
@@ -34,7 +34,7 @@ return(
 
              <div className='container'>
              <div className='cartIcon__container'>
-              <AiOutlineShoppingCart className='cart__icon cart__additional'/>
+              <AiOutlineShoppingCart className='cart__icon'/>
               <span>Cart</span>
              </div>
              <div className='cartIcon__container'>

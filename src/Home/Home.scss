@@ -1,8 +1,13 @@
 .home__container {
   height: 341.5px;
   overflow: hidden;
-
+  margin-bottom: 24px;
+  z-index: -2;
   img {
     object-fit: cover;
+  }
+
+  .card {
+    padding-top: 1rem;
   }
 }

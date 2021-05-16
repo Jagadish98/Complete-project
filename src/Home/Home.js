@@ -8,14 +8,15 @@ import './Home.scss';
 function Home() {
       return (
             <div className="home__container">
-                 <Carousel pause={true}>
+                 <Carousel pause={true} wrap={false}>
                         <Carousel.Item>
-                        <img
-                              className="d-block w-100 "
-                              src={image1}
-                              height="341.5px"
-                              alt="First slide"
-                        />
+                           
+                              <img
+                                    className="d-block w-100 "
+                                    src={image1}
+                                    height="341.5px"
+                                    alt="First slide"
+                              />
                         <Carousel.Caption>
                               <h3>First slide label</h3>
                               <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>

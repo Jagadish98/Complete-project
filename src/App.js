@@ -2,15 +2,23 @@ import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 import Header from './Header/Header';
 import Home from './Home/Home';
+import Product from './Product/Product';
+import ProductViewer from './ProductViewer/ProductViewer';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 function App() {
   return (
   <div>
     <Switch>
-      <Route to='/'>
+       <Route exact path='/product'>
+         <Header />
+        <ProductViewer />
+      </Route>
+      <Route exact path='/'>
         <Header />
         <Home />
+        <Product />
       </Route>
     </Switch>
   </div>

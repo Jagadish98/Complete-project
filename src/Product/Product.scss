@@ -1,0 +1,49 @@
+.card__img {
+  width: "297px";
+  height: "178px";
+}
+
+Carousel.Item {
+  max-height: auto;
+}
+
+.user__profile {
+  width: 30px;
+}
+
+.username {
+  font-size: 14px;
+  vertical-align: baseline;
+  padding-left: 0.5rem;
+  font-weight: 600;
+}
+
+.rating__wrapper {
+  padding: 10px 12px;
+
+  .rating {
+    color: #b5b6ba;
+    font-weight: 700;
+    margin-left: 2px;
+  }
+}
+
+.price__container {
+  display: flex;
+  justify-content: space-between;
+
+  .price__start {
+    color: #62646a;
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: top;
+    padding: 2px 0 0;
+    font-size: 100%;
+  }
+
+  .price {
+    line-height: 20px;
+    color: #62646a;
+    text-align: right;
+  }
+}

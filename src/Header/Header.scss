@@ -8,7 +8,7 @@
     align-items: center;
     justify-content: space-around;
     position: relative;
-    z-index: -1;
+    // z-index: -1;
 
     img {
       margin-right: 2.8rem;
@@ -56,7 +56,6 @@
       @media screen and (max-width: 780px) {
         margin-left: 1rem;
       }
-
       .cartIcon__container {
         display: flex;
         align-items: center;
@@ -76,8 +75,11 @@
           color: rgb(0, 175, 239);
         }
 
-        span {
+        button {
           color: rgb(92, 92, 92);
+          background-color: transparent;
+          border: 0;
+          outline: none;
         }
       }
     }
@@ -128,7 +130,7 @@
       align-items: center;
       padding: 0;
       width: 200px;
-      z-index: 100;
+      // z-index: 100;
 
       .menu__guest {
         margin-top: 0.75rem;
@@ -175,7 +177,7 @@
       justify-content: space-between;
       border: 0;
       padding: 0.5em 0.5vw;
-      z-index: -1;
+      // z-index: -1;
 
       button {
         display: block;
@@ -220,4 +222,112 @@
       display: none;
     }
   }
+}
+
+.btn {
+  width: 80%;
+  padding: 12px 20px;
+  background-color: #1dbf73;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #fff;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 0 auto;
+}
+// .react-responsive-modal-modal {
+// width: 427px;
+// max-height: 90vh;
+// max-width: 600px;
+// border-radius: 5px;
+
+// @media screen and (max-width: 470px) {
+//   display: flex;
+//   flex-direction: column;
+// }
+// }
+
+.signUp__container {
+  padding-bottom: 16px;
+}
+.mail__input {
+  background-color: #fff;
+  color: #404145;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #c5c6c9;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.modal__container {
+  width: 100%;
+  padding: 24px 0;
+  text-align: center;
+
+  // @media screen and (min-width: 470px) {
+  //   display: flex;
+  //   flex-direction: column;
+  //   width: 360px;
+  // }
+
+  p {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 21px;
+    color: #62646a;
+    margin-bottom: 0;
+    padding: 20px 20px 0 20px;
+  }
+
+  h4 {
+    font-size: 24px;
+    line-height: 130%;
+    text-align: center;
+    font-weight: 600;
+    padding: 32px 0;
+  }
+}
+
+.modal__footer {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
+  border-top: 1px solid #e4e5e7;
+  align-items: baseline;
+  line-height: 5px;
+  p {
+    margin: 0;
+    color: #62646a;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .footer__button {
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    padding-left: 4px;
+    color: #1dbf73;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+
+    &:hover {
+      text-decoration: underline;
+      color: #1dbf73;
+    }
+  }
+}
+
+.forget__button {
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  text-align: right;
+  color: #1dbf73;
+  cursor: pointer;
+  padding-top: 5px;
 }

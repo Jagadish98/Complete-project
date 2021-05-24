@@ -1,0 +1,190 @@
+.checkout {
+  .checkout__header {
+    display: flex;
+    height: 80px;
+    align-items: center;
+    max-width: 1300px;
+    margin: 0 auto;
+    border-bottom: 1px solid #e4e5e7;
+
+    .site__logo {
+      margin: 0 32px 0 0;
+      width: 150px;
+      height: 40px;
+    }
+
+    a {
+      color: #1dbf73;
+      text-decoration: none;
+    }
+
+    .nav__container {
+      flex-direction: row;
+      ul,
+      li {
+        list-style-type: none;
+        display: initial;
+      }
+
+      .number {
+        display: inline-flex;
+        justify-content: center;
+        margin-right: 8px;
+        background: #1dbf73;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 16px;
+        line-height: 25px;
+        font-weight: bold;
+      }
+
+      .nav__heading {
+        color: #1dbf73;
+        font-weight: 600;
+        font-size: 18px;
+      }
+
+      .nav__arrow {
+        width: 24px;
+        height: 24px;
+        margin: 0 16px;
+        display: inline-flex;
+        background: none;
+        border: none;
+        padding: 0;
+        fill: #222325;
+      }
+    }
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 100px;
+    padding-top: 20px;
+    max-width: 1240px;
+    .main__content {
+      .main__title {
+        line-height: 110%;
+        padding: 5px 0 10px;
+        font-size: 28px;
+        font-weight: 700;
+        color: #404145;
+      }
+      .checkoutProduct {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 0;
+        border-bottom: 1px solid #ddd;
+        .sectionOne {
+          display: flex;
+          .checkoutProduct__image {
+            margin-right: 15px;
+          }
+          .checkoutProduct__info {
+            p {
+              margin-bottom: 0.3rem;
+            }
+            .checkoutProduct__title {
+              font-size: 18px;
+              line-height: 20px;
+              padding-bottom: 5px;
+              color: #62646a;
+              max-width: 345px;
+              font-weight: 700;
+              margin-top: -2px;
+            }
+            .checkoutProduct__rating {
+              .rating__number {
+                padding-left: 5px;
+                color: #62646a;
+                font-weight: 700;
+              }
+
+              .rating__reviews {
+                padding-left: 2px;
+                color: #b5b6ba;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .subtotal {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      border: 1px solid #ddd;
+      padding: 20px;
+      box-sizing: border-box;
+      color: #404145;
+      position: sticky;
+      top: 80px;
+      h6 {
+        line-height: 14px;
+        padding-bottom: 15px;
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .subtotal__summary {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .subtotal__summarySeparator {
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+        margin-top: 10px;
+        font-weight: 700;
+      }
+      .payment__area {
+        .btn {
+          width: 100%;
+          padding: 12px 20px;
+          background-color: #1dbf73;
+          font-size: 16px;
+          line-height: 16px;
+          font-weight: 700;
+          color: #fff;
+          border: 1px solid transparent;
+          border-radius: 3px;
+          cursor: pointer;
+        }
+        .subtotal__info {
+          text-align: center;
+          padding-top: 12px;
+        }
+      }
+    }
+  }
+}
+
+.pricing {
+  display: flex;
+  min-width: 190px;
+  justify-content: space-between;
+  select {
+    width: 65px;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #62646a;
+    border: 1px #b5b6ba solid;
+    height: 34px;
+    padding: 5px 25px 8px 10px;
+    font-weight: 650;
+  }
+
+  .price {
+    display: inline-block;
+    width: 100%;
+    color: #62646a;
+    font-weight: 700;
+    text-align: right;
+  }
+}

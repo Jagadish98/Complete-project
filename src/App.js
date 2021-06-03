@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import {Switch, Route} from 'react-router-dom';
 import Header from './Header/Header';
 import Home from './Home/Home';
@@ -8,64 +8,56 @@ import Checkout from './Checkout/Checkout';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {auth, handleUserProfile} from './firebase/utils';
+import {useDispatch} from 'react-redux';
+import { setCurrentUser } from './redux/User/userActions';
 
-const initialState = {
-  currentUser : null,
-  isLogged: false
-}
 
-class App extends Component {
+function App() {
+  const dispatch = useDispatch();
 
-  constructor(props){
-    super(props);
-    this.state = {
-      ...initialState
-    }
-  }
-
-  authListener = null;
-
-  componentDidMount(){
-    this.authListener = auth.onAuthStateChanged(async user => {
+  useEffect(()=>{
+   
+    const authListener = auth.onAuthStateChanged(async user => {
           if(user !== null){
           const userRef = await handleUserProfile(user);
           userRef.onSnapshot(snapshot => {
-            this.setState({
-              currentUser: {
-                id: snapshot.id,
+            dispatch(setCurrentUser({    
+                currentUser:{
+                  id: snapshot.id,
                 ...snapshot.data()
-              },
-              isLogged: true
+                            },
+                isLogged: true
+             }));
             })
-          })
-          } 
-          else{
-            this.setState({
-              currentUser: user,
-              isLogged: false
-            });
+         }
+         else{
+           dispatch(setCurrentUser({
+             currentUser:user,
+             isLogged: false
+           }));
           }
-      })
-  };
 
-  componentWillUnmount(){
-    this.authListener();
-  };
+      });
 
-  render(){
-    const {isLogged} = this.state;
+
+    return () => {
+        authListener();
+    };
+  }, [setCurrentUser]);
+  
+
     return (
         <div>
           <Switch>
             <Route exact path='/product'>
-              <Header currentUser={isLogged}/>
+              <Header/>
               <ProductViewer />
             </Route>
             <Route exact path='/checkout'>
               <Checkout />        
             </Route>
             <Route exact path='/'>
-              <Header currentUser={isLogged}/>
+              <Header />
               <Home />
               <Product />
             </Route>
@@ -73,8 +65,5 @@ class App extends Component {
         </div>
         );
   }
-
-  
-}
 
 export default App;

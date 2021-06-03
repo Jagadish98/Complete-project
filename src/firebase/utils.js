@@ -3,19 +3,20 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import {firebaseConfig} from './config';
 
+
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
- const GoogleProvider = new firebase.auth.GoogleAuthProvider();
+ export const GoogleProvider = new firebase.auth.GoogleAuthProvider();
  GoogleProvider.setCustomParameters({prompt: 'select_account'});
  
-export function signinWithGoogle(){
+export const signinWithGoogle = () => dispatch => {
       auth
           .setPersistence(firebase.auth.Auth.Persistence.SESSION)
           .then(() => {
-              return  auth.signInWithPopup(GoogleProvider);
+                return auth.signInWithPopup(GoogleProvider);      
           })
           .catch((err)=>{
             console.log(err);

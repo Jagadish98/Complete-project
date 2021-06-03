@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {AiOutlineShoppingCart} from 'react-icons/ai';
@@ -8,35 +8,72 @@ import logo from '../asset/logo.png';
 import './Header.scss';
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
-import {handleUserProfile, signinWithGoogle} from '../firebase/utils';
-import {auth} from '../firebase/utils';
+import { signinWithGoogle, auth} from '../firebase/utils';
+import {useSelector, useDispatch} from 'react-redux';
+import {signinUser, signupUser, resetPassword, resetForms} from '../redux/User/userActions';
 
+const mapState = ({user}) => {
+    return ({ 
+    isLogged: user.isLogged, 
+    signinSuccess: user.signinSuccess,
+    signupSuccess: user.signupSuccess,
+    forgotPasswordSuccess: user.forgotPasswordSuccess,
+    signupError: user.signupError,
+    signinError: user.signinError,
+    resetPasswordError: user.resetPasswordError,
+ })};
 
-function Header({ currentUser }){
+function Header(){
     const [show, setShow] = useState(true);
     const [signUp, setsignUp ] = useState(false);
     const [login, setLogin] = useState(false);
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [messagesSignup, setMessagesSignup] = useState([]);
-    const [messagesLogin, setMessagesLogin] = useState([]);
-    const [messagesResetPassword, setMessagesResetPassword] = useState([]);
     const [forgotPassword, setforgotPassword] = useState('');
-    const [success, setSuccess] = useState('false');
+    const [success, setSuccess] = useState('');
+    const {isLogged, signinSuccess, signupSuccess, forgotPasswordSuccess, signupError, signinError, resetPasswordError} = useSelector(mapState);
+    const dispatch = useDispatch();
+
+
+    const onCloseModalLogin = () => {  
+        setLogin(false);
+    }
+
+     const reset = () => {
+        setUsername('');
+        setEmail('');
+        setPassword('');
+    }
+
+
+    useEffect(() => {
+        
+        if(signinSuccess){
+            dispatch(resetForms())
+            onCloseModalLogin();
+          }
+        if(signupSuccess){
+             dispatch(resetForms())
+             onCloseModalSignup();
+        }
+        if(forgotPasswordSuccess){
+             dispatch(resetForms())
+             onCloseModalForgotPassword();
+             openModalSuccess();
+        }  
+    }, [signinSuccess, signupSuccess, forgotPasswordSuccess]);
 
     const toggleMenu = () => {
-        console.log(show);
         setShow(!show);
     }
+   
 
     const onCloseModalSignup = () => {
         setsignUp(false);
     }
 
-    const onCloseModalLogin = () => {  
-        setLogin(false);
-    }
+    
 
     const onCloseModalForgotPassword = () => {
         setforgotPassword(false);
@@ -70,64 +107,58 @@ function Header({ currentUser }){
         setSuccess(false);
     }
 
-    const reset = () => {
-        setUsername('');
-        setEmail('');
-        setPassword('');
-        setMessagesLogin('');
-        setMessagesResetPassword('');
-        setMessagesSignup('');
+   
+    const handleFormSubmitSignup = event => {
+        event.preventDefault();
+        dispatch(signupUser({email, password, username}));
+
+        // try{
+        //     const { user } = await auth.createUserWithEmailAndPassword(email, password);
+        //     console.log(user);
+        //     await handleUserProfile(user, {username});
+        //     reset();
+        //     onCloseModalSignup();
+        // }catch(err){
+        //   setMessagesSignup(err.message);
+        // }
     }
 
-    const handleFormSubmitSignup = async event => {
+    const handleFormSubmitLogin = event => {
         event.preventDefault();
+        dispatch(signinUser({email, password}));
+        // reset();
+        // onCloseModalLogin();
 
-        try{
-            const { user } = await auth.createUserWithEmailAndPassword(email, password);
-            console.log(user);
-            await handleUserProfile(user, {username});
-            reset();
-            onCloseModalSignup();
-        }catch(err){
-          setMessagesSignup(err.message);
-        }
-    }
-
-    const handleFormSubmitLogin = async event => {
-        event.preventDefault();
-
-        try{
-            const { user } = await auth.signInWithEmailAndPassword(email, password);
-            console.log(user);
-            reset();
-            onCloseModalLogin();
-        }catch(err){
-          setMessagesLogin(err.message);
-        }
+        // try{
+        //     const { user } = await auth.signInWithEmailAndPassword(email, password);
+           
+        // }catch(err){
+        //   setMessagesLogin(err.message);
+        // }
     }
  
-    const handleFormSubmitForgotPassword = async event => {
+    const handleFormSubmitForgotPassword = event => {
         event.preventDefault();
+        dispatch(resetPassword({email}));
        
-        const config = {
-            url : 'http://localhost:3000/'
-        }
-        await auth.sendPasswordResetEmail(email, config)
-                  .then(() =>{ 
-                    reset();
-                    onCloseModalForgotPassword();
-                    openModalSuccess();
-                })
-                  .catch((err)=>{
-                     setMessagesResetPassword(err.message);
-                  })
+        // const config = {
+        //     url : 'http://localhost:3000/'
+        // }
+        // await auth.sendPasswordResetEmail(email, config)
+        //           .then(() =>{ 
+        //             reset();
+        //             onCloseModalForgotPassword();
+        //             openModalSuccess();
+        //         })
+        //           .catch((err)=>{
+        //              setMessagesResetPassword(err.message);
+        //           })
     }
 
 return(
       <div className="header">
             
             <div className='header__searchBar' >
-
               <button type="button" className='menu__button' onClick={toggleMenu}>   
                  <RiMenu2Fill className="menu__icon"  />
               </button> 
@@ -149,7 +180,7 @@ return(
              
              <div className='cartIcon__container'>
              
-              { currentUser && (
+              { isLogged && (
                   <>
             <button type='button' class='join__btn'>
                 <FaUser className='cart__icon' />
@@ -157,7 +188,7 @@ return(
              </button>
                   </>
               ) }
-              {! currentUser && (
+              {!isLogged && (
                   <>
             <button type='button' onClick={openModalLogin} class='join__btn'>
               <FaUser className='cart__icon' />
@@ -209,15 +240,15 @@ return(
         <Modal open={signUp} onClose={onCloseModalSignup} className='modal' center>
          <div className='modal__container'> 
              <h4>Join ArtisHeart</h4> 
-            <button type='button' className='btn' onClick={signinWithGoogle}>Continue with Goolge</button>
+            <button type='button' className='btn' onClick={dispatch(signinWithGoogle)}>Continue with Goolge</button>
             <button type='button' className='btn' >Continue with Facebook</button>
             <button type='button' className='btn'>Continue with Apple</button>
              <div className='or'>OR</div>
              
              <form onSubmit={handleFormSubmitSignup}>
-                 {messagesSignup.length > 0 && (
-                <small>{messagesSignup}</small>
-             )}
+                 {signupError.length > 0 && (
+                     <small>{signupError}</small>
+                 )}
                 <div style={{paddingBottom: '16px'}}>  
                     <input type='email' className='mail__input' placeholder='Enter you email' name='email'onChange={e => setEmail(e.target.value)}/>
                 </div> 
@@ -246,7 +277,7 @@ return(
               <button type='button' className='btn' >Sign In with Apple</button>
              <div className='or'>OR</div>
              <form onSubmit={handleFormSubmitLogin}>
-                 {messagesLogin.length>0 && <small>{messagesLogin}</small>}
+                 {signinError.length > 0 && (<small>{signinError}</small>) }
                 <div style={{paddingBottom: '16px'}}>  
                     <input type='email' className='mail__input' placeholder='Email' name='email' onChange={e => setEmail(e.target.value)}/>
                 </div> 
@@ -273,11 +304,11 @@ return(
           </div>
         </Modal>
 
-        <Modal open={forgotPassword} onClose={closeModalSuccess} center>
+        <Modal open={forgotPassword} onClose={onCloseModalForgotPassword} center>
             <div className='modal__container'>
                 <h4>Forgot Password ?</h4>
                  <form onSubmit={handleFormSubmitForgotPassword}>
-                     {messagesResetPassword.length > 0 && <small>{messagesResetPassword}</small>}
+                    {resetPasswordError.length > 0 && (<small>{resetPasswordError}</small>)}
                     <div style={{paddingBottom: '16px'}}>  
                         <input type='email' className='mail__input' placeholder='Email' name='email' onChange={e => setEmail(e.target.value)}/>
                     </div> 

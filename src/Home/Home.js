@@ -1,11 +1,13 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Carousel from 'react-bootstrap/Carousel';
 import image1 from '../asset/1.jpg';
 import image2 from '../asset/2.jpg';
 import image3 from '../asset/3.jpg';
-import './Home.scss';
+import './Home.scss'
+import {useSelector, useDispatch} from 'react-redux'
 
 function Home() {
+   
       return (
             <div className="home__container">
                  <Carousel pause={true} wrap={false}>

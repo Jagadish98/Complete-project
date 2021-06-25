@@ -8,7 +8,9 @@ const userTypes = {
       SIGNUP_ERROR : 'SIGNUP_ERROR',
       SIGNIN_ERROR : 'SIGNIN_ERROR',
       RESET_PASSWORD_ERROR : 'RESET_PASSWORD_ERROR',
-      RESET_AUTH_FORMS : 'RESET_AUTH_FORMS'
+      RESET_AUTH_FORMS : 'RESET_AUTH_FORMS',
+      SET_OPEN_MODAL_LOGIN : 'SET_OPEN_MODAL_LOGIN',
+      RESET_OPEN_MODAL_LOGIN : 'RESET_OPEN_MODAL_LOGIN'
 }
 
 export const setCurrentUser = (user) => ({
@@ -18,6 +20,16 @@ export const setCurrentUser = (user) => ({
             isLogged: user.isLogged
       }
 });
+
+export const setOpenModalLogin = () => ({
+      type : userTypes.SET_OPEN_MODAL_LOGIN,
+      payload : true
+});
+
+export const resetOpenModalLogin = () => ({
+      type : userTypes.RESET_OPEN_MODAL_LOGIN,
+      payload : false
+})
 
 export const signinUser = ({email, password}) => async dispatch => {
       try{

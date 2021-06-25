@@ -9,6 +9,7 @@ const initialState = {
       signupError: [],
       signinError: [],
       resetPasswordError: [],
+      openLoginModal: false
 }
 
 export const userReducer = (state=initialState, action) => {
@@ -55,6 +56,18 @@ export const userReducer = (state=initialState, action) => {
                   return{
                         ...state,
                         resetPasswordError: action.payload
+                  }
+
+            case userTypes.SET_OPEN_MODAL_LOGIN:
+                  return{
+                        ...state,
+                        openLoginModal: action.payload
+                  }
+
+            case userTypes.RESET_OPEN_MODAL_LOGIN:
+                  return{
+                        ...state,
+                        openLoginModal: action.payload
                   }
                   
             case userTypes.RESET_AUTH_FORMS:

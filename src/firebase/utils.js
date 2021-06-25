@@ -12,7 +12,7 @@ export const firestore = firebase.firestore();
  export const GoogleProvider = new firebase.auth.GoogleAuthProvider();
  GoogleProvider.setCustomParameters({prompt: 'select_account'});
  
-export const signinWithGoogle = () => dispatch => {
+export const signinWithGoogle = () => {
       auth
           .setPersistence(firebase.auth.Auth.Persistence.SESSION)
           .then(() => {
@@ -36,11 +36,13 @@ export const handleUserProfile = async (user, additionalData) => {
     if(!snapshot.exists){
           const {displayName, email} = user;
           const timestamp = new Date();
+          const userRoles = ['user'];
            try{
               await userRef.set({
                     displayName,
                     email,
                     createdDate: timestamp,
+                    userRoles,
                     ...additionalData
               })
            }catch(err){

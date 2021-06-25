@@ -9,11 +9,11 @@ import rootReducer from './redux/User/rootReducer';
 import {Provider} from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './redux/rootSaga';
-import thunk from 'redux-thunk'
+import thunk from 'redux-thunk';
 
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(rootReducer, applyMiddleware(thunk));
-// sagaMiddleware.run(ro otSaga);
+const store = createStore(rootReducer, applyMiddleware(thunk, sagaMiddleware));
+// sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <React.StrictMode>

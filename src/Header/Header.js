@@ -6,13 +6,19 @@ import {FaUser} from 'react-icons/fa';
 import {RiMenu2Fill} from 'react-icons/ri';
 import logo from '../asset/logo.png';
 import './Header.scss';
+import Fuse from "fuse.js";
+import SearchBar from 'fuse.js'
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import { signinWithGoogle, auth} from '../firebase/utils';
 import {useSelector, useDispatch} from 'react-redux';
 import {signinUser, signupUser, resetPassword, resetForms} from '../redux/User/userActions';
+import {setSearchData} from '../redux/Products/productActions'
+import {useHistory} from 'react-router-dom';
+import {ReactSearchAutocomplete} from 'react-search-autocomplete'
 
-const mapState = ({user}) => {
+const mapState = ({user, productData }) => {
+   
     return ({ 
     isLogged: user.isLogged, 
     signinSuccess: user.signinSuccess,
@@ -21,9 +27,12 @@ const mapState = ({user}) => {
     signupError: user.signupError,
     signinError: user.signinError,
     resetPasswordError: user.resetPasswordError,
+    currentUser : user.currentUser,
+    products : productData.products
  })};
 
 function Header(){
+   
     const [show, setShow] = useState(true);
     const [signUp, setsignUp ] = useState(false);
     const [login, setLogin] = useState(false);
@@ -32,18 +41,19 @@ function Header(){
     const [password, setPassword] = useState('');
     const [forgotPassword, setforgotPassword] = useState('');
     const [success, setSuccess] = useState('');
-    const {isLogged, signinSuccess, signupSuccess, forgotPasswordSuccess, signupError, signinError, resetPasswordError} = useSelector(mapState);
+    const {isLogged, signinSuccess, signupSuccess, forgotPasswordSuccess, signupError, signinError, resetPasswordError, currentUser, products} = useSelector(mapState);
     const dispatch = useDispatch();
+    const history = useHistory();
+    const items = products;
 
+    const handleOnSelect = (item) => {
+        console.log(item)
+        history.push('/search')
+        dispatch(setSearchData(item))
+    }
 
     const onCloseModalLogin = () => {  
         setLogin(false);
-    }
-
-     const reset = () => {
-        setUsername('');
-        setEmail('');
-        setPassword('');
     }
 
 
@@ -68,12 +78,9 @@ function Header(){
         setShow(!show);
     }
    
-
     const onCloseModalSignup = () => {
         setsignUp(false);
     }
-
-    
 
     const onCloseModalForgotPassword = () => {
         setforgotPassword(false);
@@ -99,7 +106,7 @@ function Header(){
     }
     
     const openModalSuccess = () => {
-         setforgotPassword(false);
+        setforgotPassword(false);
         setSuccess(true);
     }
 
@@ -111,136 +118,120 @@ function Header(){
     const handleFormSubmitSignup = event => {
         event.preventDefault();
         dispatch(signupUser({email, password, username}));
-
-        // try{
-        //     const { user } = await auth.createUserWithEmailAndPassword(email, password);
-        //     console.log(user);
-        //     await handleUserProfile(user, {username});
-        //     reset();
-        //     onCloseModalSignup();
-        // }catch(err){
-        //   setMessagesSignup(err.message);
-        // }
     }
 
     const handleFormSubmitLogin = event => {
         event.preventDefault();
         dispatch(signinUser({email, password}));
-        // reset();
-        // onCloseModalLogin();
-
-        // try{
-        //     const { user } = await auth.signInWithEmailAndPassword(email, password);
-           
-        // }catch(err){
-        //   setMessagesLogin(err.message);
-        // }
     }
  
     const handleFormSubmitForgotPassword = event => {
         event.preventDefault();
         dispatch(resetPassword({email}));
-       
-        // const config = {
-        //     url : 'http://localhost:3000/'
-        // }
-        // await auth.sendPasswordResetEmail(email, config)
-        //           .then(() =>{ 
-        //             reset();
-        //             onCloseModalForgotPassword();
-        //             openModalSuccess();
-        //         })
-        //           .catch((err)=>{
-        //              setMessagesResetPassword(err.message);
-        //           })
     }
+        
 
 return(
+    
       <div className="header">
             
             <div className='header__searchBar' >
-              <button type="button" className='menu__button' onClick={toggleMenu}>   
-                 <RiMenu2Fill className="menu__icon"  />
-              </button> 
-              <Link to='/' >     
-                 <img src={logo} alt="ArtisHeart" width='140px' height='38px'/>
-              </Link>
-         
+                <button type="button" className='menu__button' onClick={toggleMenu}>   
+                    <RiMenu2Fill className="menu__icon"  />
+                </button> 
+                <Link to='/' >     
+                    <img src={logo} alt="ArtisHeart" width='140px' height='38px'/>
+                </Link>
+                
              <div className='search__container'>
-              <input type="search" className='searchbar'placeholder='Search for products...' />
-              <button type='search' className='btn__search'>Search</button>
+                    <ReactSearchAutocomplete 
+                        items={items}
+                        onSelect={handleOnSelect}
+                        fuseOptions={{ keys: ["title"] }} 
+                        resultStringKeyName = "title"
+                        styling={{ zIndex: 2, height: "34px", 
+                            width: "43vw",
+                            borderRight: 0,
+                            padding: "0.1rem 0.7rem",
+                            fontSize: "0.9rem",
+                            outline: "none",
+                            color: "rgb(152, 152, 152)",
+                            backgroundColor: "rgb(255, 255, 255)",
+                            border: "1px solid rgb(38, 199, 116)",
+                            }}
+                        autoFocus
+                        />
              </div>
 
-             <div className='container'>
-             <div className='cartIcon__container'>
-                 <button type='button' className='cart__btn'>
-              <AiOutlineShoppingCart className='cart__icon'/>
-              <span>Cart</span></button>
-             </div>
-             
-             <div className='cartIcon__container'>
-             
-              { isLogged && (
-                  <>
-            <button type='button' class='join__btn'>
-                <FaUser className='cart__icon' />
-                <span  onClick={() => auth.signOut()}>Sign out</span>
-             </button>
-                  </>
-              ) }
-              {!isLogged && (
-                  <>
-            <button type='button' onClick={openModalLogin} class='join__btn'>
-              <FaUser className='cart__icon' />
-              <span>Sign In</span>
-            </button>
-                  </>
-              )
-            }
-             </div>
-            
-             </div>
-
+            <div className='container'>             
+                    
+                <div className='cartIcon__container'>
+                    <button type='button' className='cart__btn'>
+                    <AiOutlineShoppingCart className='cart__icon'/>
+                    <span>Cart</span></button>
+                </div>
+                
+                <div className='cartIcon__container'>
+                
+                        { isLogged && (
+                            <>
+                        <button type='button' className='join__btn' onClick={openModalLogin}>
+                            <FaUser className='cart__icon' />
+                            <span  onClick={() => auth.signOut()}>Sign out</span>
+                        </button>
+                            </>
+                        ) }
+                        {!isLogged && (
+                            <>
+                        <button type='button' onClick={openModalLogin} className='join__btn'>
+                        <FaUser className='cart__icon' />
+                        <span>Sign In</span>
+                        </button>
+                            </>
+                        )}
+                </div>
+                
             </div>
+        </div>
           
         <div className={show ? 'header__container': 'hidden'}>
-         <ul>
-          <li>
-              <div className="menu__guest">
-                 <FaUser className='cart__icon' />
-              </div>
-              <div className='guest'>
-              <p>Hi Guest</p>
-              <p>Login</p> 
-              </div>
-          </li>   
-          <li>
-              <Link to='/'>
-              Home
-              </Link>
-          </li>
-          <li > 
-              <Link to='/'>
-                  Gift Packs
-              </Link>
-          </li>
-          <li>
-              <Link to='/'>
-                  Become a Seller
-              </Link>
-          </li>
-          <li>
-              <Link to='/'>
-                  Blog
-              </Link>
-          </li>  
-        </ul>
+                <ul>
+                <li>
+                    <div className="menu__guest">
+                        <FaUser className='cart__icon' />
+                    </div>
+                    <div className='guest'>
+                    <p>Hi Guest</p>
+                    <p>Login</p> 
+                    </div>
+                </li>   
+                <li>
+                    <Link to='/'>
+                    Home
+                    </Link>
+                </li>
+                <li > 
+                    <Link to='/admin'>
+                        Gift Packs
+                    </Link>
+                </li>
+                <li>
+                    <Link to='/'>
+                        Become a Seller
+                    </Link>
+                </li>
+                <li>
+                    <Link to='/payment'>
+                        Blog
+                    </Link>
+                </li>  
+                </ul>
        </div>
         {/* Signup modal */}
         <Modal open={signUp} onClose={onCloseModalSignup} className='modal' center>
          <div className='modal__container'> 
              <h4>Join ArtisHeart</h4> 
-            <button type='button' className='btn' onClick={dispatch(signinWithGoogle)}>Continue with Goolge</button>
+            <button type='button' className='btn' onClick={signinWithGoogle}>Continue with Goolge</button>
             <button type='button' className='btn' >Continue with Facebook</button>
             <button type='button' className='btn'>Continue with Apple</button>
              <div className='or'>OR</div>

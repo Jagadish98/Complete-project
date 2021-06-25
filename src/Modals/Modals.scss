@@ -1,0 +1,103 @@
+.react-responsive-modal-modal {
+  border-radius: 5px;
+  padding: 0;
+}
+
+.modal__container {
+  width: 100%;
+  text-align: center;
+
+  p {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 21px;
+    color: #62646a;
+    margin-bottom: 0;
+    padding: 5px 20px 20px 20px;
+  }
+
+  h4 {
+    font-size: 24px;
+    line-height: 130%;
+    text-align: center;
+    font-weight: 600;
+    padding: 32px 0;
+  }
+}
+
+.or {
+  border-top: 1px solid black;
+}
+
+.mail__input {
+  background-color: #fff;
+  color: #404145;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #c5c6c9;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.modal__footer {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  border-top: 1px solid #e4e5e7;
+  align-items: baseline;
+  line-height: 5px;
+  p {
+    margin: auto 0;
+    color: #62646a;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .footer__button {
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    padding-left: 4px;
+    color: #1dbf73;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+
+    &:hover {
+      text-decoration: underline;
+      color: #1dbf73;
+    }
+  }
+}
+
+.forget__button {
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  text-align: right;
+  color: #1dbf73;
+  cursor: pointer;
+  padding-top: 5px;
+  text-align: right;
+  display: block;
+  margin: 0 auto;
+}
+
+small {
+  font-size: 16px;
+  color: red;
+}
+
+.btn {
+  width: 60%;
+  padding: 12px 20px;
+  background-color: #1dbf73;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #fff;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 0.5rem auto;
+}
